@@ -21,21 +21,24 @@ class TimeActivity : AppCompatActivity() {
 
         // get values
         val pomodoroTimeParam = intent.getStringExtra("PomodoroTime")
-        val regenarationTimeParam = intent.getStringExtra("RegenerationTime")
+        // val regenarationTimeParam = intent.getStringExtra("RegenerationTime")
         val lableTimer = findViewById<TextView>(R.id.timerLable)
         val progressBar = findViewById<ProgressBar>(R.id.progress_timer)
         val timer = findViewById<TextView>(R.id.PomodoroTimeForTimer)
 
-        timer.text = pomodoroTimeParam
+        countDownPomodoro(pomodoroTimeParam.toString(), timer, progressBar)
 
-        var timeInMillis = countDownTime(pomodoroTimeParam.toString())
 
-        var progress = 0
-        progressBar.isIndeterminate = false
-        progressBar.max = (minutes * 60) + seconds
+        //timer.text = pomodoroTimeParam
+
+        // var timeInMillis = countDownTime(pomodoroTimeParam.toString())
+
+        //var progress = 0
+        //progressBar.isIndeterminate = false
+        // progressBar.max = (minutes * 60) + seconds
 
         // Countdown of the times
-        object : CountDownTimer(timeInMillis, 1000) {
+/*        object : CountDownTimer(timeInMillis, 1000) {
             override fun onTick(p0: Long) {
                 timer.text = stringTime()
 
@@ -60,8 +63,55 @@ class TimeActivity : AppCompatActivity() {
                 start()
 
             }
-        }.start()
+        }.start()*/
 
+    }
+
+    fun countDownPomodoro(time: String, timer:TextView, progressBar: ProgressBar) {
+        val regenarationTimeParam = intent.getStringExtra("RegenerationTime")
+
+        var progress = 0
+        var timeInMillis = countDownTime(time)
+        progressBar.max = (minutes * 60) + seconds
+        timer.text = time
+
+        object : CountDownTimer(timeInMillis, 1000) {
+            override fun onTick(p0: Long) {
+                timer.text = stringTime()
+
+                //update countdown progress
+                progress++
+                progressBar.progress = progress
+            }
+
+            override fun onFinish() {
+                countDownRegeneration(regenarationTimeParam.toString(), timer, progressBar)
+            }
+        }.start()
+    }
+
+    fun countDownRegeneration(time: String, timer: TextView, progressBar: ProgressBar) {
+        val pomodoroTimeParam = intent.getStringExtra("PomodoroTime")
+
+        var progress = 0
+        var timeInMillis = countDownTime(time)
+        progressBar.max = (minutes * 60) + seconds
+        timer.text = time
+
+        object : CountDownTimer(timeInMillis, 1000) {
+            override fun onTick(p0: Long) {
+                timer.text = stringTime()
+
+                //update countdown progress
+                progress++
+                progressBar.progress = progress
+            }
+
+            override fun onFinish() {
+                countDownPomodoro(pomodoroTimeParam.toString(), timer, progressBar)
+
+            }
+        }.start()
     }
 
     fun countDownTime (time: String): Long {
