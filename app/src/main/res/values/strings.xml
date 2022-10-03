@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pomodoro App</string>
+    <string name="lable_pomodoro_time">Pomodoro Zeit:</string>
+    <string name="lable_start_btn">Start</string>
+    <string name="lable_regeneration_time">Regenerations Zeit:</string>
+    <string name="lable_timer">Pomodori Zeit</string>
+    <string name="pause_btn">Pause</string>
+    <string name="abort_btn">Abbrechen</string>
+</resources>
